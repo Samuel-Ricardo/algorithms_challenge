@@ -6,11 +6,11 @@
 #define MAX_LIMIT 99
 
 int calculate_difference(int diference) {
-  if (diference > 30)
+  if (diference > 30 || diference < -30)
     return 3;
-  else if (diference > 20)
+  else if (diference > 20 || diference < -20)
     return 2;
-  else if (diference > 10)
+  else if (diference > 10 || diference < -10)
     return 1;
   else
     return 0;
