@@ -32,12 +32,10 @@ int e_triangulo_obtusangulo(int angulos[3]) {
 }
 
 int e_actuangulo(int angulos[3]) {
-  int possui_um_angulo_agudo =
-      (angulos[0] < 90 && !(angulos[1] < 90) && !(angulos[2] < 90)) ||
-      (angulos[1] < 90 && !(angulos[0] < 90) && !(angulos[2] < 90)) ||
-      (angulos[2] < 90 && !(angulos[0] < 90) && !(angulos[1] < 90));
+  int possui_angulos_agudos =
+      angulos[0] < 90 && angulos[1] < 90 && angulos[2] < 90;
 
-  return triangulo_e_possivel(angulos) && possui_um_angulo_agudo;
+  return triangulo_e_possivel(angulos) && possui_angulos_agudos;
 }
 
 int main() {
@@ -48,4 +46,21 @@ int main() {
     printf("Escreva o valor do Angulo n: %d Do Triangulo: \n", i + 1);
     scanf("%d", &angulos[i]);
   }
+
+  if (e_triangulo_retangulo(angulos)) {
+    printf("E um Triangulo Retangulo\n");
+    return 0;
+  }
+
+  if (e_triangulo_obtusangulo(angulos)) {
+    printf("E um Triangulo Obtusangulo\n");
+    return 0;
+  }
+  if (e_actuangulo(angulos)) {
+    printf("E um Triangulo Acutangulo\n");
+    return 0;
+  }
+
+  printf("Triangulo invalido\n");
+  return 0;
 }
