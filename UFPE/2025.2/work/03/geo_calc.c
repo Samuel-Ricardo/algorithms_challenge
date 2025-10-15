@@ -79,7 +79,7 @@ int main() {
       scanf("%f", &diagonal1);
       printf("Digite a diagonal 2: ");
       scanf("%f", &diagonal2);
-      f printf("Area: %.2f\n", rhombus(diagonal1, diagonal2));
+      printf("Area: %.2f\n", rhombus(diagonal1, diagonal2));
       break;
 
     case 6:
@@ -93,7 +93,7 @@ int main() {
       printf("Digite a altura: ");
       scanf("%f", &heightTrapezium);
 
-      printf("Area: %.2f", trapezium(base1, base2, heightTrapezium));
+      printf("Area: %.2f\n", trapezium(base1, base2, heightTrapezium));
       break;
 
     case 7:
