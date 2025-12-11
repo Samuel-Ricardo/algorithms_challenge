@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define N 5
 
@@ -18,18 +20,13 @@ typedef struct funcionario {
 void jump() { printf("\n"); }
 
 void Menu(int *choice) {
-  printf("\n Escolha uma Opcao: \n\n");
+  printf("\n\n Escolha uma Opcao: \n\n");
 
   printf("1. Inserir dados \n");
   printf("2. Consultar dados \n");
   printf("3. Encerrar o programa \n\n");
 
   scanf("%d", choice);
-}
-
-int close(int c) {
-  printf("Voce escolheu - %d", c);
-  return 0;
 }
 
 int contarFuncionarios() {
@@ -78,25 +75,59 @@ tFuncionario lerFuncionario() {
   return func;
 }
 
-void inserir() {
+int inserir() {
 
   FILE *arquivo = fopen(ARQUIVO, "a");
-  if (arquivo == NULL)
+  if (arquivo == NULL) {
     printf("Erro ao abrir o arquivo \n");
+    return 0;
+  }
 
   tFuncionario f = lerFuncionario();
-  fprintf(arquivo, "%s %s %s %.2f\n", f.matricula, f.nome, f.cargo, f.salario);
+  fprintf(arquivo, "%s|%s|%s|%.2f\n", f.matricula, f.nome, f.cargo, f.salario);
 
   fclose(arquivo);
-  contarFuncionarios();
+  return contarFuncionarios();
+}
+
+char *consultar(char matricula[lenMatricula]) {
+
+  tFuncionario f;
+  char *not_find = "Funcionario nao encontrado";
+
+  FILE *arquivo = fopen(ARQUIVO, "r");
+
+  if (arquivo == NULL) {
+    printf("Erro ao abrir o arquivo \n");
+    return not_find;
+  }
+
+  int find = 0;
+
+  while (fscanf(arquivo, "%[^|]|%[^|]|%[^|]|%f\n", f.matricula, f.nome, f.cargo,
+                &f.salario) != EOF) {
+    if (strcmp(f.matricula, matricula) == 0) {
+      find = 1;
+      break;
+    }
+  };
+
+  fclose(arquivo);
+
+  jump();
+
+  char *result = (char *)malloc(sizeof(char) * 200);
+  sprintf(result, "Matricula: %s \nNome: %s \nCargo: %s \nSalario: %.2f \n",
+          f.matricula, f.nome, f.cargo, f.salario);
+
+  return find ? result : not_find;
 }
 
 int main() {
 
-  int running = 1;
   int choice = 0;
 
-  while (running) {
+  while (choice != 3) {
     Menu(&choice);
 
     switch (choice) {
@@ -106,11 +137,16 @@ int main() {
       break;
 
     case 2:
-      running = close(choice);
+      printf("Digite a matricula: ");
+
+      char matricula[lenMatricula];
+      scanf("%s", matricula);
+
+      printf("%s", consultar(matricula));
       break;
 
     case 3:
-      running = close(choice);
+      printf("Encerrando o Programa... \n\n");
       break;
 
     default:
